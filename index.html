@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>>_ HAPPY BIRTHDAY, ANDREW</title>
+    <style>
+        /* === BASE RESET & SETUP === */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #050505;
+            color: #d1f5d1; /* White with a slight green tint */
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* === 16:9 CINEMATIC CONTAINER === */
+        .cinematic-wrapper {
+            width: 100vw;
+            height: 56.25vw; /* 16:9 Aspect Ratio */
+            max-height: 100vh;
+            max-width: 177.78vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.9);
+            overflow: hidden;
+        }
+
+        /* === CAMERA ZOOM EFFECT === */
+        .scene {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.9);
+            animation: cameraZoom 10s ease-in-out infinite alternate;
+            z-index: 2;
+        }
+
+        @keyframes cameraZoom {
+            0% { transform: scale(0.95); }
+            100% { transform: scale(1.05); }
+        }
+
+        /* === ASCII ART & GLOW === */
+        .ascii-container {
+            position: relative;
+            font-size: clamp(0.3rem, 0.75vw, 1rem); /* Scales with screen */
+            line-height: 1.1;
+            white-space: pre;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(200, 255, 200, 0.6), 0 0 12px rgba(100, 255, 100, 0.3);
+            animation: symbolFlicker 6s infinite;
+        }
+
+        /* === RGB SPLIT GLITCH (ASCII) === */
+        .ascii-container::before,
+        .ascii-container::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            pointer-events: none;
+        }
+
+        .ascii-container::before {
+            color: #ff003c;
+            text-shadow: none;
+            z-index: -1;
+            animation: glitch-1 3s infinite linear alternate-reverse;
+        }
+
+        .ascii-container::after {
+            color: #00eaff;
+            text-shadow: none;
+            z-index: -2;
+            animation: glitch-2 2.5s infinite linear alternate-reverse;
+        }
+
+        /* === TEXT TYPING & GLITCH ANIMATION === */
+        .text-container {
+            margin-top: 30px;
+            font-size: clamp(1rem, 2vw, 3rem);
+            position: relative;
+            text-shadow: 0 0 8px rgba(200, 255, 200, 0.7);
+        }
+
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0;
+            border-right: 0.15em solid #d1f5d1;
+            animation: 
+                typing 3s steps(30, end) 1s forwards,
+                blinkCursor 0.75s step-end infinite,
+                textFlicker 4s infinite 4s;
+        }
+
+        /* === OVERLAYS: SCANLINES, NOISE, INTERFERENCE === */
+        .scanlines {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.3) 50%,
+                rgba(0,0,0,0.3)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .noise {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.08"/%3E%3C/svg%3E');
+            pointer-events: none;
+            z-index: 9;
+            opacity: 0.6;
+            animation: noiseMove 0.2s infinite;
+        }
+
+        .interference {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 20;
+            animation: signalFlash 8s infinite;
+        }
+
+        /* === KEYFRAMES === */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blinkCursor {
+            from, to { border-color: transparent; }
+            50% { border-color: #d1f5d1; }
+        }
+
+        @keyframes symbolFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+            20%, 22%, 24%, 55% { opacity: 0.5; filter: drop-shadow(0 0 20px #ff003c); }
+        }
+
+        @keyframes textFlicker {
+            0%, 95%, 100% { transform: translate(0, 0); opacity: 1; text-shadow: 0 0 8px rgba(200, 255, 200, 0.7); }
+            96% { transform: translate(-2px, 1px); opacity: 0.8; text-shadow: 2px 0 red, -2px 0 cyan; }
+            97% { transform: translate(2px, -1px); opacity: 0.9; text-shadow: -2px 0 red, 2px 0 cyan; }
+            98% { transform: translate(0, 0); opacity: 1; }
+        }
+
+        @keyframes glitch-1 {
+            0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+            20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+            40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+            60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+            80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); }
+            100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
+        }
+
+        @keyframes glitch-2 {
+            0% { clip-path: inset(15% 0 85% 0); transform: translate(2px, -1px); }
+            20% { clip-path: inset(65% 0 5% 0); transform: translate(-2px, 1px); }
+            40% { clip-path: inset(45% 0 45% 0); transform: translate(2px, -2px); }
+            60% { clip-path: inset(85% 0 0% 0); transform: translate(-2px, 2px); }
+            80% { clip-path: inset(5% 0 75% 0); transform: translate(1px, -1px); }
+            100% { clip-path: inset(25% 0 55% 0); transform: translate(-1px, 1px); }
+        }
+
+        @keyframes noiseMove {
+            0% { transform: translate(0, 0); }
+            10% { transform: translate(-1px, -1px); }
+            20% { transform: translate(1px, 1px); }
+            30% { transform: translate(-2px, 1px); }
+            40% { transform: translate(1px, -1px); }
+            50% { transform: translate(-1px, 2px); }
+            60% { transform: translate(2px, -1px); }
+            70% { transform: translate(0, 1px); }
+            80% { transform: translate(-1px, -2px); }
+            90% { transform: translate(1px, 2px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes signalFlash {
+            0%, 93%, 100% { opacity: 0; }
+            94% { opacity: 0.15; }
+            95% { opacity: 0; }
+            96% { opacity: 0.3; }
+            97% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cinematic-wrapper">
+        <div class="noise"></div>
+        <div class="scanlines"></div>
+        <div class="interference"></div>
+
+        <div class="scene">
+            <div class="ascii-container" id="ascii-art">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XX                                                                          XX
+XX   MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM   XX
+XX   MMMMMMMMMMMMMMMMMMMMMssssssssssssssssssssssssssMMMMMMMMMMMMMMMMMMMMM   XX
+XX   MMMMMMMMMMMMMMMMss'''                          '''ssMMMMMMMMMMMMMMMM   XX
+XX   MMMMMMMMMMMMyy''                                    ''yyMMMMMMMMMMMM   XX
+XX   MMMMMMMMyy''                                            ''yyMMMMMMMM   XX
+XX   MMMMMy''                                                  ''yMMMMM   XX
+XX   MMMy'                                                        'yMMM   XX
+XX   Mh'                                                            'hM   XX
+XX   -                                                                -   XX
+XX                                                                          XX
+XX   ::                                                              ::   XX
+XX   MMhh.        ..hhhhhh..                      ..hhhhhh..        .hhMM   XX
+XX   MMMMMh   ..hhMMMMMMMMMMhh.                .hhMMMMMMMMMMhh..   hMMMMM   XX
+XX   ---MMM .hMMMMdd:::dMMMMMMMhh..        ..hhMMMMMMMd:::ddMMMMh. MMM---   XX
+XX   MMMMMM MMmm''      'mmMMMMMMMMyy.  .yyMMMMMMMMmm'      ''mmMM MMMMMM   XX
+XX   ---mMM ''             'mmMMMMMMMM  MMMMMMMMmm'             '' MMm---   XX
+XX   yyyym'    .              'mMMMMm'  'mMMMMm'              .    'myyyy   XX
+XX   mm''    .y'     ..yyyyy..  ''''      ''''  ..yyyyy..     'y.    ''mm   XX
+XX           MN    .sMMMMMMMMMss.   .    .   .ssMMMMMMMMMs.    NM           XX
+XX           N`    MMMMMMMMMMMMMN   M    M   NMMMMMMMMMMMMM    `N           XX
+XX            +  .sMNNNNNMMMMMN+   `N    N`   +NMMMMMNNNNNMs.  +            XX
+XX              o+++     ++++Mo    M      M    oM++++     +++o              XX
+XX                                oo      oo                                XX
+XX           oM                 oo          oo                 Mo           XX
+XX         oMMo                 M              M                 oMMo         XX
+XX       +MMMM                 s              s                  MMMM+       XX
+XX      +MMMMM+            +++NNNN+        +NNNN+++            +MMMMM+      XX
+XX     +MMMMMMM+       ++NNMMMMMMMMN+    +NMMMMMMMMNN++       +MMMMMMM+     XX
+XX     MMMMMMMMMNN+++NNMMMMMMMMMMMMMMNNNNMMMMMMMMMMMMMMNN+++NNMMMMMMMMM     XX
+XX     yMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMy     XX
+XX   m  yMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMy  m   XX
+XX   MMm yMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMy mMM   XX
+XX   MMMm .yyMMMMMMMMMMMMMMMM     MMMMMMMMMM     MMMMMMMMMMMMMMMMyy. mMMM   XX
+XX   MMMMd   ''''hhhhh       odddo          obbbo        hhhh''''   dMMMM   XX
+XX   MMMMMd             'hMMMMMMMMMMddddddMMMMMMMMMMh'             dMMMMM   XX
+XX   MMMMMMd              'hMMMMMMMMMMMMMMMMMMMMMMh'              dMMMMMM   XX
+XX   MMMMMMM-               ''ddMMMMMMMMMMMMMMdd''               -MMMMMMM   XX
+XX   MMMMMMMM                   '::dddddddd::'                   MMMMMMMM   XX
+XX   MMMMMMMM-                                                 -MMMMMMMM   XX
+XX   MMMMMMMMM                                                 MMMMMMMMM   XX
+XX   MMMMMMMMMy                                               yMMMMMMMMM   XX
+XX   MMMMMMMMMMy.                                           .yMMMMMMMMMM   XX
+XX   MMMMMMMMMMMMy.                                       .yMMMMMMMMMMMM   XX
+XX   MMMMMMMMMMMMMMy.                                   .yMMMMMMMMMMMMMM   XX
+XX   MMMMMMMMMMMMMMMMs.                                .sMMMMMMMMMMMMMMMM   XX
+XX   MMMMMMMMMMMMMMMMMMss.            ....            .ssMMMMMMMMMMMMMMMMMM   XX
+XX   MMMMMMMMMMMMMMMMMMMMNo         oNNNNo         oNMMMMMMMMMMMMMMMMMMMM   XX
+XX                                                                          XX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+
+            <div class="text-container">
+                <span class="typewriter">&gt;_ HAPPY BIRTHDAY, ANDREW </span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Copy the inner text to a data attribute so the CSS pseudo-elements 
+        // can use it to create the red/cyan RGB split glitch effect.
+        const asciiElement = document.getElementById('ascii-art');
+        asciiElement.setAttribute('data-text', asciiElement.innerText);
+    </script>
+</body>
+</html>
