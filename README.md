@@ -1,1 +1,0 @@
-# QR-ANDREW-HB
